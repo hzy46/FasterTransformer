@@ -32,6 +32,7 @@
 #include <sys/types.h>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 namespace fastertransformer {
 
@@ -295,6 +296,43 @@ struct Tensor {
     }
 
     Tensor slice(std::vector<size_t> shape, size_t offset = 0) const;
+
+    void print_value() const
+    {
+        // {{TYPE_BOOL, sizeof(bool)},
+        // {TYPE_BYTES, sizeof(char)},
+        // {TYPE_UINT8, sizeof(uint8_t)},
+        // {TYPE_UINT16, sizeof(uint16_t)},
+        // {TYPE_UINT32, sizeof(uint32_t)},
+        // {TYPE_UINT64, sizeof(uint64_t)},
+        // {TYPE_INT8, sizeof(int8_t)},
+        // {TYPE_INT16, sizeof(int16_t)},
+        // {TYPE_INT32, sizeof(int32_t)},
+        // {TYPE_INT64, sizeof(int64_t)},
+        // #ifdef ENABLE_BF16
+        // {TYPE_BF16, sizeof(__nv_bfloat16)},
+        // #endif
+        // #ifdef ENABLE_FP8
+        // {TYPE_FP8_E4M3, sizeof(__nv_fp8_e4m3)},
+        // #endif
+        // {TYPE_FP16, sizeof(half)},
+        // {TYPE_FP32, sizeof(float)},
+        // {TYPE_FP64, sizeof(double)}};
+        // return type_map.at(type);
+        if (where == MEMORY_CPU || where == MEMORY_CPU_PINNED) {
+            for (size_t i = 0; i < size(); ++i) {
+                void* x = getPtrWithOffset(i);
+                if (type == TYPE_BOOL) {
+                    std::cout<<*((bool*)x)<<" ";
+                } else if (type == TYPE_BYTES) {
+                    std::cout<<*((char*)x)<<" ";
+                } else if (type == TYPE_UINT8) {
+                    std::cout<<*((uint8_t*)x)<<" ";
+                }
+            }
+            std::cout<<std::endl;
+        }
+    }
 
 private:
     static void parseNpyIntro(FILE*& f_ptr, uint32_t& header_len, uint32_t& start_data);
