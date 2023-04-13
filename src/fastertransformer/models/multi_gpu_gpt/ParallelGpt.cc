@@ -637,6 +637,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
     printf("[ParallelGpt->Forward] output_ids: %s\n", 
         output_tensors->at("output_ids").toString().c_str()
     );
+    printf("[ParallelGpt->Forward] output_ids: \n");
+    output_tensors->at("output_ids").print_value();
 
     // Used when inputs do not contain random_seed
     const size_t batch_size = output_tensors->at("output_ids").shape[0];
