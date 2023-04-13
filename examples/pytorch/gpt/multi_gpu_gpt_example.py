@@ -308,6 +308,10 @@ def main():
             return tokens_batch
     else:
         def gpt_generate_fn():
+            print('[Python Info]: start_ids shape = ', start_ids.shape)
+            print('[Python Info]: input_lengths shape =', start_lengths.shape)
+            print('[Python Info]: gen_length shape =', output_len.shape)
+            print('[Python Info]: gen_length valuie =', output_len)
             output_dict = gpt.generate(input_token_ids=start_ids,
                                        input_lengths=start_lengths,
                                        gen_length=output_len,
@@ -334,6 +338,7 @@ def main():
 
         outputs = []
         tokens_batch = tokens_batch.cpu().numpy()
+        print('[INFO] tokens_batch = ', tokens_batch.shape)
         for i, (context, tokens) in enumerate(zip(contexts, tokens_batch)):
             for beam_id in range(beam_width):
                 token = tokens[beam_id][start_lengths[i]:]  # exclude context input from the output
@@ -341,7 +346,7 @@ def main():
                     token = token[token != end_id]
                 output = enc.decode(token) if args.detokenize else ' '.join(str(t) for t in token.tolist())
                 outputs.append(output)
-                print(f'[INFO] batch {i}, beam {beam_id}:\n[Context]\n{context}\n\n[Output]\n{output}\n')
+                # print(f'[INFO] batch {i}, beam {beam_id}:\n[Context]\n{context}\n\n[Output]\n{output}\n')
 
         if args.sample_output_file:
             with open(args.sample_output_file, "w+") as f:
