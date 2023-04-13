@@ -329,20 +329,35 @@ struct Tensor {
 
     void print_value() const
     {
+        void* temp_data;
         if (where == MEMORY_CPU || where == MEMORY_CPU_PINNED) {
-            for (size_t i = 0; i < size(); ++i) {
-                void* x = getPtrWithOffset(i);
-                print_single_value(x);
+            temp_data = data;
+        } else if (where == MEMORY_GPU) {
+            temp_data = (void *)malloc(size() * getTypeSize(type));
+            cudaMemcpy(temp_data, data, size() * getTypeSize(type), cudaMemcpyDeviceToHost);
+        }
+
+        if (shape.size() == 2) {
+            const size_t N = shape[0];
+            const size_t M = shape[1];
+            for (size_t i = 0; i < N; ++i) {
+                for (size_t j = 0; j < M; ++j) {
+                    size_t offset = i * M + j
+                    void* x = (void *)((char*)temp_data + offset * getTypeSize(type));
+                    print_single_value(x);
+                }
+                std::cout<<std::endl;
             }
         } else {
-            void* temp_data = (void *)malloc(size() * getTypeSize(type));
-            cudaMemcpy(temp_data, data, size() * getTypeSize(type), cudaMemcpyDeviceToHost);
             for (size_t i = 0; i < size(); ++i) {
                 void* x = (void *)((char*)temp_data + i * getTypeSize(type));
                 print_single_value(x);
             }
+            std::cout<<std::endl;
         }
-        std::cout<<std::endl;
+        if (where == MEMORY_GPU) {
+            free(temp_data);
+        }
     }
 
 private:
