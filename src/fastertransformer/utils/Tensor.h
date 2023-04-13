@@ -319,7 +319,7 @@ struct Tensor {
         } else if (type == TYPE_INT64) {
             std::cout<<*((const int64_t*)x)<<" ";
         } else if (type == TYPE_FP16) {
-            std::cout<<const float(*((half*)x))<<" ";
+            std::cout<<float(*((const half*)x))<<" ";
         } else if (type == TYPE_FP32) {
             std::cout<<*((const float*)x)<<" ";
         } else if (type == TYPE_FP64) {
