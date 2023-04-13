@@ -297,44 +297,46 @@ struct Tensor {
 
     Tensor slice(std::vector<size_t> shape, size_t offset = 0) const;
 
-    void print_single_value(void* x) const {
+    void print_single_value(const void* x) const {
         if (type == TYPE_BOOL) {
-            std::cout<<*((bool*)x)<<" ";
+            std::cout<<*((const bool*)x)<<" ";
         } else if (type == TYPE_BYTES) {
-            std::cout<<*((char*)x)<<" ";
+            std::cout<<*((const char*)x)<<" ";
         } else if (type == TYPE_UINT8) {
-            std::cout<<*((uint8_t*)x)<<" ";
+            std::cout<<*((const uint8_t*)x)<<" ";
         } else if (type == TYPE_UINT16) {
-            std::cout<<*((uint16_t*)x)<<" ";
+            std::cout<<*((const uint16_t*)x)<<" ";
         } else if (type == TYPE_UINT32) {
-            std::cout<<*((uint32_t*)x)<<" ";
+            std::cout<<*((const uint32_t*)x)<<" ";
         } else if (type == TYPE_UINT64) {
-            std::cout<<*((uint64_t*)x)<<" ";
+            std::cout<<*((const uint64_t*)x)<<" ";
         } else if (type == TYPE_INT8) {
-            std::cout<<*((int8_t*)x)<<" ";
+            std::cout<<*((const int8_t*)x)<<" ";
         } else if (type == TYPE_INT16) {
-            std::cout<<*((int16_t*)x)<<" ";
+            std::cout<<*((const int16_t*)x)<<" ";
         } else if (type == TYPE_INT32) {
-            std::cout<<*((int32_t*)x)<<" ";
+            std::cout<<*((const int32_t*)x)<<" ";
         } else if (type == TYPE_INT64) {
-            std::cout<<*((int64_t*)x)<<" ";
+            std::cout<<*((const int64_t*)x)<<" ";
         } else if (type == TYPE_FP16) {
-            std::cout<<float(*((half*)x))<<" ";
+            std::cout<<const float(*((half*)x))<<" ";
         } else if (type == TYPE_FP32) {
-            std::cout<<*((float*)x)<<" ";
+            std::cout<<*((const float*)x)<<" ";
         } else if (type == TYPE_FP64) {
-            std::cout<<*((double*)x)<<" ";
+            std::cout<<*((const double*)x)<<" ";
         }
     }
 
     void print_value() const
     {
-        void* temp_data;
+        const void* temp_data;
+        void* temp_buffer;
         if (where == MEMORY_CPU || where == MEMORY_CPU_PINNED) {
             temp_data = data;
         } else if (where == MEMORY_GPU) {
-            temp_data = (void *)malloc(size() * getTypeSize(type));
-            cudaMemcpy(temp_data, data, size() * getTypeSize(type), cudaMemcpyDeviceToHost);
+            temp_buffer = (void *)malloc(size() * getTypeSize(type));
+            cudaMemcpy(temp_buffer, data, size() * getTypeSize(type), cudaMemcpyDeviceToHost);
+            temp_data = temp_buffer;
         }
 
         if (shape.size() == 2) {
@@ -342,21 +344,21 @@ struct Tensor {
             const size_t M = shape[1];
             for (size_t i = 0; i < N; ++i) {
                 for (size_t j = 0; j < M; ++j) {
-                    size_t offset = i * M + j
-                    void* x = (void *)((char*)temp_data + offset * getTypeSize(type));
+                    size_t offset = i * M + j;
+                    const void* x = (const void *)((const char*)temp_data + offset * getTypeSize(type));
                     print_single_value(x);
                 }
                 std::cout<<std::endl;
             }
         } else {
             for (size_t i = 0; i < size(); ++i) {
-                void* x = (void *)((char*)temp_data + i * getTypeSize(type));
+                const void* x = (const void *)((const char*)temp_data + i * getTypeSize(type));
                 print_single_value(x);
             }
             std::cout<<std::endl;
         }
         if (where == MEMORY_GPU) {
-            free(temp_data);
+            free(temp_buffer);
         }
     }
 
