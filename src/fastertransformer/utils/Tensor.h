@@ -338,7 +338,7 @@ struct Tensor {
             void* temp_data = (void *)malloc(size() * getTypeSize(type));
             cudaMemcpy(temp_data, data, size() * getTypeSize(type), cudaMemcpyDeviceToHost);
             for (size_t i = 0; i < size(); ++i) {
-                void* x = (void *)((char*)temp_data + i * getTypeSize(type))
+                void* x = (void *)((char*)temp_data + i * getTypeSize(type));
                 print_single_value(x);
             }
         }
