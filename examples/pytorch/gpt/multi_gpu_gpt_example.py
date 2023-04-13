@@ -299,6 +299,10 @@ def main():
 
     if not args.use_gpt_decoder_ops:
         def gpt_generate_fn():
+            print('[Python Info]: start_ids shape = ', start_ids.shape)
+            print('[Python Info]: start_lengths shape =', start_lengths.shape)
+            print('[Python Info]: output_len shape =', output_len.shape)
+            print('[Python Info]: output_len value =', output_len)
             tokens_batch = gpt(start_ids,
                                start_lengths,
                                output_len,
@@ -308,10 +312,6 @@ def main():
             return tokens_batch
     else:
         def gpt_generate_fn():
-            print('[Python Info]: start_ids shape = ', start_ids.shape)
-            print('[Python Info]: input_lengths shape =', start_lengths.shape)
-            print('[Python Info]: gen_length shape =', output_len.shape)
-            print('[Python Info]: gen_length valuie =', output_len)
             output_dict = gpt.generate(input_token_ids=start_ids,
                                        input_lengths=start_lengths,
                                        gen_length=output_len,
