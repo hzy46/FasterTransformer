@@ -336,7 +336,8 @@ struct Tensor {
             }
             std::cout<<std::endl;
         } else {
-
+            void* temp_data = (void *)malloc(size() * getTypeSize(type));
+            cudaMemcpy(temp_data, data, cudaMemcpyDeviceToHost);
         }
     }
 
