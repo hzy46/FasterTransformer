@@ -301,7 +301,6 @@ def main():
         def gpt_generate_fn():
             print('[Python Info]: start_ids shape = ', start_ids.shape)
             print('[Python Info]: start_lengths shape =', start_lengths.shape)
-            print('[Python Info]: output_len shape =', output_len.shape)
             print('[Python Info]: output_len value =', output_len)
             tokens_batch = gpt(start_ids,
                                start_lengths,
