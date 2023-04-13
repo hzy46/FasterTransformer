@@ -297,7 +297,7 @@ struct Tensor {
 
     Tensor slice(std::vector<size_t> shape, size_t offset = 0) const;
 
-    void print_single_value(void* x) {
+    void print_single_value(void* x) const {
         if (type == TYPE_BOOL) {
             std::cout<<*((bool*)x)<<" ";
         } else if (type == TYPE_BYTES) {
@@ -335,6 +335,8 @@ struct Tensor {
                 print_single_value(x);
             }
             std::cout<<std::endl;
+        } else {
+
         }
     }
 
