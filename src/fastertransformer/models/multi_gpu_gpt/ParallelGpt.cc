@@ -632,6 +632,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
     printf("[ParallelGpt->Forward] input_ids: %s\n", 
         input_tensors->at("input_ids").toString().c_str()
     );
+    printf("[ParallelGpt->Forward] input_ids: \n");
+    input_tensors->at("input_ids").print_value();
     printf("[ParallelGpt->Forward] output_ids: %s\n", 
         output_tensors->at("output_ids").toString().c_str()
     );
