@@ -634,9 +634,9 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
         input_tensors->at("input_ids").shape[1]
     );
     printf("[ParallelGpt->Forward] output_ids shape [%d, %d, %d] \n", 
-        input_tensors->at("output_ids").shape[0],
-        input_tensors->at("output_ids").shape[1],
-        input_tensors->at("output_ids").shape[2]
+        output_tensors->at("output_ids").shape[0],
+        output_tensors->at("output_ids").shape[1],
+        output_tensors->at("output_ids").shape[2]
     );
 
     // Used when inputs do not contain random_seed
