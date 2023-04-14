@@ -128,7 +128,7 @@ void ParallelGpt<T>::allocateBuffer(size_t batch_size,
     h_finished_buf_   = new bool[batchxbeam];
     sequence_lengths_ = (int*)(allocator_->reMalloc(sequence_lengths_, sizeof(int) * batchxbeam, false));
 
-    print("[ParallelGpt-> allocateBuffer] hidden_units_ %ld self_cache_size %ld\n", hidden_units_, self_cache_size);
+    printf("[ParallelGpt-> allocateBuffer] hidden_units_ %ld self_cache_size %ld\n", hidden_units_, self_cache_size);
     key_cache_   = (T*)(allocator_->reMalloc(key_cache_, sizeof(T) * self_cache_size * 2, true));
     value_cache_ = key_cache_ + self_cache_size;
     if (beam_width > 1) {
