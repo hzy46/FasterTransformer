@@ -327,6 +327,9 @@ struct Tensor {
         }
     }
 
+    void print_shape() const {
+        std::cout << toString() << std::endl;
+    }
     void print_value() const
     {
         std::cout << toString() << std::endl;
