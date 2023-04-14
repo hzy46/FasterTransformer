@@ -133,7 +133,8 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
                                   true);
     }
     else {
-        printf("[GptContextAttentionLayer->Forward] first GEMM for Q!\n");
+        printf("[GptContextAttentionLayer->Forward] first GEMM for Q!: Size1 (%ld, %ld), Size2 (%ld, %ld) output (%ld, %ld)\n ",
+          3 * local_hidden_units_, hidden_units_, m, k, 3 * local_hidden_units_, m);
         cublas_wrapper_->Gemm(CUBLAS_OP_N,
                               CUBLAS_OP_N,
                               3 * local_hidden_units_,  // n
