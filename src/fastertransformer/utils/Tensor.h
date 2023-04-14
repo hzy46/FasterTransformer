@@ -329,7 +329,7 @@ struct Tensor {
 
     void print_value() const
     {
-        std::count << toString() << std::endl;
+        std::cout << toString() << std::endl;
         const void* temp_data;
         void* temp_buffer;
         if (where == MEMORY_CPU || where == MEMORY_CPU_PINNED) {
