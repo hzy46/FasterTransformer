@@ -549,7 +549,7 @@ void ParallelGptContextDecoder<T>::forward(
 
             self_attention_layer_->forward(
                 &self_attention_output_tensors, &self_attention_input_tensors, &layer_weight->self_attention_weights);
-            printf("\n")
+            printf("\n");
 
             PUSH_RANGE("K/V cache clean");
             if (use_shared_contexts) {
