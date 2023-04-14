@@ -542,7 +542,8 @@ void GptContextAttentionLayer<T>::allocateBuffer(size_t batch_size, size_t seq_l
     const auto type_size = sizeof(T);
     qkv_buf_ = (T*)allocator_->reMalloc(qkv_buf_, type_size * 3 * batch_size * seq_len * local_hidden_units_, true);
     q_buf_2_ = (T*)allocator_->reMalloc(q_buf_2_, sizeof(T) * batch_size * seq_len * 3 * local_hidden_units_, true);
-    printf("[GptContextAttentionLayer->allocateBuffer] q k buffer size (T typed) %ld \n", batch_size * seq_len * local_hidden_units_);
+    printf("[GptContextAttentionLayer->allocateBuffer] q k buffer size (T typed) %ld batch_size %ld seq_len %ld local_hidden_units_ %ld\n", 
+      batch_size * seq_len * local_hidden_units_, batch_size, seq_len, local_hidden_units_);
     k_buf_2_ = q_buf_2_ + batch_size * seq_len * local_hidden_units_;
     v_buf_2_ = k_buf_2_ + batch_size * seq_len * local_hidden_units_;
 
