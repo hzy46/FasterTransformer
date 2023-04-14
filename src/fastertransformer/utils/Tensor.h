@@ -327,7 +327,7 @@ struct Tensor {
         }
     }
 
-    void print_value( const
+    void print_value() const
     {
         std::count << toString() << std::endl;
         const void* temp_data;
