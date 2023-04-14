@@ -47,6 +47,10 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
     FT_CHECK(output_tensors->at("key_cache").shape.size() == 5);
     FT_CHECK(output_tensors->at("value_cache").shape.size() == 4
              || output_tensors->at("value_cache").shape.size() == 3);
+    printf('[GptContextAttentionLayer->forward] key_cache:');
+    output_tensors->at("key_cache").print_shape();
+    printf('[GptContextAttentionLayer->forward] value_cache:');
+    output_tensors->at("value_cache").print_shape();
     const int request_batch_size = input_tensors->at("attention_mask").shape[0];
     const int request_seq_len    = input_tensors->at("attention_mask").shape[2];
     const int max_prompt_length =
