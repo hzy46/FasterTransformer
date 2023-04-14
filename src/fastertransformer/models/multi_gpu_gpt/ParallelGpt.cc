@@ -1084,10 +1084,14 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                   Tensor(MEMORY_GPU, data_type, {batch_size * beam_width, hidden_units_}, decoder_output_buf_)}});
 
             printf("[ParallelGpt->forward] [context decoder] decoder_input_tensors: %s\n", decoder_input_tensors.toString().c_str());
-            printf("[ParallelGpt->forward] [context decoder] compact_idx: ");
-            decoder_input_tensors.at("compact_idx").print_value();
-            printf("[ParallelGpt->forward] [context decoder] batch_to_compact_idx: ");
-            decoder_input_tensors.at("batch_to_compact_idx").print_value();
+            if (decoder_input_tensors.isExist("compact_idx")) {
+                printf("[ParallelGpt->forward] [context decoder] compact_idx: ");
+                decoder_input_tensors.at("compact_idx").print_value();
+            }
+            if (decoder_input_tensors.isExist("batch_to_compact_idx")) {
+                printf("[ParallelGpt->forward] [context decoder] batch_to_compact_idx: ");
+                decoder_input_tensors.at("batch_to_compact_idx").print_value();
+            }
             printf("[ParallelGpt->forward] [context decoder] decoder_output_tensors: %s\n", decoder_output_tensors.toString().c_str());
             gpt_context_decoder_->forward(
                 &decoder_output_tensors, &decoder_input_tensors, &gpt_weights->decoder_layer_weights);
