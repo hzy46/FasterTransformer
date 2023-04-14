@@ -1083,8 +1083,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                  {"last_token_hidden_units",
                   Tensor(MEMORY_GPU, data_type, {batch_size * beam_width, hidden_units_}, decoder_output_buf_)}});
 
-            printf("[ParallelGpt->forward] [context decoder] decoder_input_tensors: %s\n", decoder_input_tensors.toString().c_str())
-            printf("[ParallelGpt->forward] [context decoder] decoder_output_tensors: %s\n", decoder_output_tensors.toString().c_str())
+            printf("[ParallelGpt->forward] [context decoder] decoder_input_tensors: %s\n", decoder_input_tensors.toString().c_str());
+            printf("[ParallelGpt->forward] [context decoder] decoder_output_tensors: %s\n", decoder_output_tensors.toString().c_str());
             gpt_context_decoder_->forward(
                 &decoder_output_tensors, &decoder_input_tensors, &gpt_weights->decoder_layer_weights);
 
