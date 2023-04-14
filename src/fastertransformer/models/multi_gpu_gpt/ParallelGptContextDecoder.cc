@@ -542,6 +542,11 @@ void ParallelGptContextDecoder<T>::forward(
                 {"key_cache", Tensor{MEMORY_GPU, data_type, self_k_cache_size, k_cache_ptr}},
                 {"value_cache", Tensor{MEMORY_GPU, data_type, self_v_cache_size, v_cache_ptr}}};
 
+            printf("[ParallelGptContextDecoder->forward] key_cache: ");
+            self_attention_output_tensors.at("key_cache").print_shape();
+            printf("[ParallelGptContextDecoder->forward] value_cache: ");
+            self_attention_output_tensors.at("value_cache").print_shape();
+
             self_attention_layer_->forward(
                 &self_attention_output_tensors, &self_attention_input_tensors, &layer_weight->self_attention_weights);
 
