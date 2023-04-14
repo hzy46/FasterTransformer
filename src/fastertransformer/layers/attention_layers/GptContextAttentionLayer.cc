@@ -205,12 +205,24 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
     }
     // NOTE: qkv buffer shape (batch_size, num_heads,L or prompt_len + L, Dh)
 
+    if (attention_type == AttentionType::UNFUSED_MHA) {
+        printf("[GptContextAttentionLayer->Forward] AttentionType::UNFUSED_MHA\n");
+    } else if (attention_type == AttentionType::UNFUSED_PADDED_MHA) {
+        printf("[GptContextAttentionLayer->Forward] AttentionType::UNFUSED_PADDED_MHA\n");
+    } else if (attention_type == AttentionType::FUSED_MHA) {
+        printf("[GptContextAttentionLayer->Forward] AttentionType::FUSED_MHA\n");
+    } else if (attention_type == AttentionType::FUSED_PADDED_MHA) {
+        printf("[GptContextAttentionLayer->Forward] AttentionType::FUSED_PADDED_MHA\n");
+    }
+
+
     POP_RANGE;
     if (is_final == false) {
         const cudaDataType_t gemm_data_type      = getCudaDataType<T>();
         const int            attention_seq_len_1 = request_seq_len;                      // q length
         const int            attention_seq_len_2 = max_prompt_length + request_seq_len;  // kv length
         const T              qk_scale            = static_cast<T>(1.0f / sqrtf(size_per_head_ * 1.0f));
+
         if (attention_type != AttentionType::FUSED_MHA) {
             if (is_qk_buf_float_ == true && gemm_data_type != CUDA_R_32F) {
                 PUSH_RANGE("Q*K batch gemm");
