@@ -136,7 +136,7 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
     else {
         printf("[GptContextAttentionLayer->Forward] QKV Gemm: Size1 (%ld, %ld), Size2 (%ld, %ld) output (%ld, %ld)\n ",
           3 * local_hidden_units_, hidden_units_, hidden_units_, m, 3 * local_hidden_units_, m);
-        std::cout<<"[GptContextAttentionLayer->Forward] QKV Gemm: " << attention_weights->query_weight.kernel[0] << " " attention_weights->query_weight.kernel[1] << std::endl;
+        std::cout<<"[GptContextAttentionLayer->Forward] QKV Gemm: " << attention_weights->query_weight.kernel[0] << " " << attention_weights->query_weight.kernel[1] << std::endl;
 
         cublas_wrapper_->Gemm(CUBLAS_OP_N,
                               CUBLAS_OP_N,
