@@ -1217,6 +1217,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
 
         PUSH_RANGE(fmtstr("token_%d", step_ - step_start));
         for (uint ite = 0; ite < iteration_num; ++ite) {
+            printf("[ParallelGpt->forward] [per token decoder] step_ %d ite %d\n", 
+                        step_, ite);
             const int id_offset               = ite * local_batch_size * beam_width;
             const int hidden_units_offset     = id_offset * hidden_units_;
             const int vocab_size_units_offset = id_offset * vocab_size_padded_;
@@ -1269,6 +1271,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
 
             if ((max_input_length <= 1) || (step_ > step_start) || continue_gen) {
                 if (pipeline_para_.rank_ == 0) {
+                    printf("[ParallelGpt->forward] [per token decoder] step_ %d  invokeEmbeddingLookupPosEncodingPadCount \n", 
+                        step_);
                     invokeEmbeddingLookupPosEncodingPadCount(decoder_input_buf_ + hidden_units_offset,
                                                              gpt_weights->pre_decoder_embedding_table,
                                                              gpt_weights->position_encoding_table,
@@ -1298,7 +1302,7 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                     sync_check_cuda_error();
                 }
 
-                printf("[ParallelGpt->forward] [per token decoder] id_offset: %d hidden_units_offset: %d ", 
+                printf("[ParallelGpt->forward] [per token decoder] id_offset: %d hidden_units_offset: %d \n", 
                     id_offset, hidden_units_offset);
 
                 std::unordered_map<std::string, Tensor> decoder_input_tensors(
