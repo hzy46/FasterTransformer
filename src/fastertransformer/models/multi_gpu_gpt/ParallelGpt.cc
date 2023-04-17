@@ -1298,6 +1298,9 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                     sync_check_cuda_error();
                 }
 
+                printf("[ParallelGpt->forward] [per token decoder] id_offset: %d hidden_units_offset: %d ", 
+                    id_offset, hidden_units_offset);
+
                 std::unordered_map<std::string, Tensor> decoder_input_tensors(
                     {{"decoder_input",
                       Tensor(MEMORY_GPU,
