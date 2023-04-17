@@ -144,6 +144,22 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
         );
         printf("[GptContextAttentionLayer->Forward] QKV Gemm: attention_weights->query_weight.kernel:\n ");
         temp.print_value();
+        Tensor temp2(
+          MEMORY_GPU,
+          getTensorType<T>(),
+          {10},
+          attention_input
+        );
+        printf("[GptContextAttentionLayer->Forward] QKV Gemm: attention_input:\n ");
+        temp2.print_value();
+        Tensor temp3(
+          MEMORY_GPU,
+          getTensorType<T>(),
+          {10},
+          attention_input + local_hidden_units_
+        );
+        printf("[GptContextAttentionLayer->Forward] QKV Gemm: attention_input + local_hidden_units_:\n ");
+        temp3.print_value();
         // std::cout<<"[GptContextAttentionLayer->Forward] QKV Gemm: " << attention_weights->query_weight.kernel[0] << " " << attention_weights->query_weight.kernel[1] << std::endl;
         // TensorMap
 
