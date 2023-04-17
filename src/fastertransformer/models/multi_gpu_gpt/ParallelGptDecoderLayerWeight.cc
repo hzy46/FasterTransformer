@@ -551,7 +551,7 @@ void ParallelGptDecoderLayerWeight<T>::mallocWeights()
     }
 
     if (int8_mode_ == 0) {
-        printf("[ParallelGptDecoderLayerWeight->mallocWeights] hidden_units_ %d", hidden_units_)
+        printf("[ParallelGptDecoderLayerWeight->mallocWeights] hidden_units_ %ld", hidden_units_);
         deviceMalloc(&weights_ptr[2], hidden_units_ * 3 * hidden_units_ / tensor_para_size_);  // qkv weight
         deviceMalloc(&weights_ptr[4],
                      hidden_units_ / tensor_para_size_ * hidden_units_);                  // attention output weight
