@@ -140,7 +140,7 @@ void GptContextAttentionLayer<T>::forward(TensorMap*                output_tenso
           MEMORY_GPU,
           getTensorType<T>(),
           {10},
-          attention_weights->query_weight.kernel,
+          attention_weights->query_weight.kernel
         );
         printf("[GptContextAttentionLayer->Forward] QKV Gemm: attention_weights->query_weight.kernel:\n ");
         temp.print_value();
