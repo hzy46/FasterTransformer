@@ -1355,6 +1355,8 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                      {"key_cache", Tensor(MEMORY_GPU, data_type, self_k_cache_shape, key_cache_)},
                      {"value_cache", Tensor(MEMORY_GPU, data_type, self_v_cache_shape, value_cache_)}});
 
+                printf("[ParallelGpt->forward] [per token decoder] step_ %d  gpt_decoder_->forward \n", 
+                        step_);
                 gpt_decoder_->forward(
                     &decoder_output_tensors, &decoder_input_tensors, &gpt_weights->decoder_layer_weights);
             }
