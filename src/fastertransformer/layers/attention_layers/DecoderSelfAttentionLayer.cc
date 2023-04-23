@@ -569,6 +569,8 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
                                       true);
         }
         else {
+            printf("[DecoderSelfAttentionLayer->forward] GEMM local_hidden_units_ %d batch_size %d d_model_ %d \n", 
+                local_hidden_units_, batch_size, d_model_);
             cublas_wrapper_->Gemm(CUBLAS_OP_N,
                                   CUBLAS_OP_N,
                                   3 * local_hidden_units_,  // n
