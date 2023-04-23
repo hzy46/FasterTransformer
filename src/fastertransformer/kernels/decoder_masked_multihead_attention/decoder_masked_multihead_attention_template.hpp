@@ -1202,13 +1202,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
         return;
     }
     if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
-        printf("[masked_multihead_attention_kernel] blockIdx.x (head_id) %d blockIdx.y (batch_id) %d threadIdx.x %d\n", 
-            blockIdx.x, blockIdx.y, threadIdx.x);
-        printf("[masked_multihead_attention_kernel] WARPS_PER_BLOCK %d sizeof(Qk_vec_k) %d sizeof(Qk_vec_m) %d\n",
-            WARPS_PER_BLOCK, sizeof(Qk_vec_k), sizeof(Qk_vec_m)
+        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] WARPS_PER_BLOCK %d sizeof(Qk_vec_k) %d sizeof(Qk_vec_m) %d\n",
+            blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, sizeof(Qk_vec_k), sizeof(Qk_vec_m)
         );
-        printf("[masked_multihead_attention_kernel] QK_VECS_PER_WARP %d QK_ELTS_IN_16B %d QK_VECS_IN_16B %d\n",
-           QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
+        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] QK_VECS_PER_WARP %d QK_ELTS_IN_16B %d QK_VECS_IN_16B %d\n",
+           blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
         );
     }
 
