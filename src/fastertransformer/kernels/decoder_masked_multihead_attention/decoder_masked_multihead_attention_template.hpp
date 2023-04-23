@@ -1118,6 +1118,11 @@ template<
     bool HAS_BEAMS>
 __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, DO_CROSS_ATTENTION> params)
 {
+    printf("[masked_multihead_attention_kernel] T's name %s Dh %d Dh_MAX %d \n", typeid(T).name(), Dh, Dh_MAX);
+    printf("[masked_multihead_attention_kernel] THREADS_PER_KEY %d THREADS_PER_VALUE %d THREADS_PER_BLOCK %d\n", 
+        THREADS_PER_KEY, THREADS_PER_VALUE, THREADS_PER_BLOCK);
+    printf("[masked_multihead_attention_kernel] DO_CROSS_ATTENTION %d HAS_BEAMS %d\n", 
+        DO_CROSS_ATTENTION, HAS_BEAMS);
 
     using Tk = typename kernel_type_t<T>::Type;
 #ifdef ENABLE_FP8
