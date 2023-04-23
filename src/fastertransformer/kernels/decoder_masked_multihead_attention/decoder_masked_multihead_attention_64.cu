@@ -46,6 +46,12 @@ void mmha_launch_kernel(const KERNEL_PARAMS_TYPE& params, const cudaStream_t& st
     constexpr int  THREADS_PER_VALUE  = threads_per_value_t<T, Dh_MAX>::value;
     constexpr bool DO_CROSS_ATTENTION = std::is_same<KERNEL_PARAMS_TYPE, Cross_multihead_attention_params<T>>::value;
     int            tlength            = (DO_CROSS_ATTENTION) ? params.memory_max_len : params.timestep;
+    printf("[mmha_launch_kernel] Dh %d Dh_MAX %d \n", Dh, Dh_MAX);
+    printf("[mmha_launch_kernel] THREADS_PER_VALUE %d \n", 
+        THREADS_PER_VALUE);
+    printf("[mmha_launch_kernel] params.cache_indir %p\n", 
+        params.cache_indir);
+
     if (params.cache_indir == nullptr) {
         if (tlength < 32) {
             MMHA_LAUNCH_KERNEL(T, Dh, Dh_MAX, 4, THREADS_PER_VALUE, 64, DO_CROSS_ATTENTION, false, stream);
