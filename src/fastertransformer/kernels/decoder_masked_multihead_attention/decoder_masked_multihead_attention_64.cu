@@ -51,6 +51,8 @@ void mmha_launch_kernel(const KERNEL_PARAMS_TYPE& params, const cudaStream_t& st
         THREADS_PER_VALUE);
     printf("[mmha_launch_kernel] params.cache_indir %p\n", 
         params.cache_indir);
+    printf("[mmha_launch_kernel] DO_CROSS_ATTENTION %d tlength %d\n", 
+        DO_CROSS_ATTENTION, tlength);
 
     if (params.cache_indir == nullptr) {
         if (tlength < 32) {
