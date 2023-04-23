@@ -1206,7 +1206,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
             blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, int(sizeof(Qk_vec_k)), int(sizeof(Qk_vec_m))
         );
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] QK_VECS_PER_WARP %d QK_ELTS_IN_16B %d QK_VECS_IN_16B %d\n",
-           blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
+           blockIdx.x, blockIdx.y, threadIdx.x, QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
         );
     }
 
