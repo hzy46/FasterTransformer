@@ -68,8 +68,8 @@ void fusedQKV_masked_attention_dispatch(const T*     qkv_buf,
                                         cudaStream_t stream)
 {
     using DataType = typename SATypeConverter<T>::Type;
-    printf("[DecoderSelfAttentionLayer->fusedQKV_masked_attention_dispatch] T's name %s\n", typeid(T).name());
-    printf("[DecoderSelfAttentionLayer->fusedQKV_masked_attention_dispatch] DataType's name %s\n", typeid(DataType).name());
+    printf("[DecoderSelfAttentionLayer->fusedQKV_masked_attention_dispatch] T's name %s sizeof(T) %d\n", typeid(T).name(), sizeof(T));
+    printf("[DecoderSelfAttentionLayer->fusedQKV_masked_attention_dispatch] DataType's name %s sizeof(DataType) %d\n", typeid(DataType).name(), sizeof(DataType));
     // Prepare the parameters.
     Masked_multihead_attention_params<DataType> params;
     memset(&params, 0, sizeof(params));
