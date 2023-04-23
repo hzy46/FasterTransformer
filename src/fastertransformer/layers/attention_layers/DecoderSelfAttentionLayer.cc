@@ -484,6 +484,12 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
     FT_CHECK(output_tensors->at("key_cache").shape.size() == 5 || output_tensors->at("key_cache").shape.size() == 3);
     FT_CHECK(output_tensors->at("value_cache").shape.size() == 4
              || output_tensors->at("value_cache").shape.size() == 3);
+
+    printf("[DecoderSelfAttentionLayer->forward] output_tensors->at(\"key_cache\") ");
+    output_tensors->at("key_cache").print_shape();
+    printf("[DecoderSelfAttentionLayer->forward] output_tensors->at(\"value_cache\") ");
+    output_tensors->at("value_cache").print_shape();
+
     allocateBuffer(input_tensors->at("input_query").shape[0]);
 
     const T*    attention_input         = input_tensors->getPtr<T>("input_query");
