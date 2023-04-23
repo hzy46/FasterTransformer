@@ -75,7 +75,7 @@ void masked_multihead_attention(const Masked_multihead_attention_params<float>& 
 
 void masked_multihead_attention(const Masked_multihead_attention_params<uint16_t>& params, const cudaStream_t& stream)
 {
-    printf("[decoder_masked_multihead_attention->masked_multihead_attention uint16_t]");
+    printf("[decoder_masked_multihead_attention->masked_multihead_attention uint16_t]\n");
     multihead_attention_<uint16_t, Masked_multihead_attention_params<uint16_t>>(params, stream);
 }
 
