@@ -1225,6 +1225,13 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     const bool handle_kv = !DO_CROSS_ATTENTION || (DO_CROSS_ATTENTION && params.timestep == 0);
 
+    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] beami %d bbi %d hi %d bhi %d bbhi %d tidx %d handle_kv %d\n",
+            blockIdx.x, blockIdx.y, threadIdx.x, beami, bbi, hi, bhi, bbhi, tidx, handle_kv
+        );
+    }
+
+
     // While doing the product Q*K^T for the different keys we track the max.
     float qk_max = -FLT_MAX;
 
@@ -1252,6 +1259,17 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     const bool do_ia3      = handle_kv && params.ia3_tasks != nullptr;
     const int  ia3_task_id = do_ia3 ? params.ia3_tasks[bbi] : 0;
+
+
+    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
+            blockIdx.x, blockIdx.y, threadIdx.x, qkv_base_offset, bi_seq_len_offset, tlength, first_step, tlength_circ
+        );
+        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] is_masked %d qk_offset %d qk_bias_offset %d do_ia3 %d ia3_task_id %d  \n",
+            blockIdx.x, blockIdx.y, threadIdx.x, is_masked, qk_offset, qk_bias_offset, do_ia3, ia3_task_id 
+        );
+    }
+
 
     // Trigger the loads from the Q and K buffers.
     Qk_vec_k q;
