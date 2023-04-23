@@ -1263,7 +1263,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
-            blockIdx.x, blockIdx.y, threadIdx.x, qkv_base_offset, bi_seq_len_offset, tlength, first_step, tlength_circ
+            blockIdx.x, blockIdx.y, threadIdx.x, qkv_base_offset, bi_seq_len_offset, int(tlength), int(first_step), int(tlength_circ)
         );
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] is_masked %d qk_offset %d qk_bias_offset %d do_ia3 %d ia3_task_id %d  \n",
             blockIdx.x, blockIdx.y, threadIdx.x, is_masked, qk_offset, qk_bias_offset, do_ia3, ia3_task_id 
@@ -1298,6 +1298,8 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
         int ci = tidx % QK_VECS_IN_16B * QK_VEC_SIZE;
 
         // Two chunks are separated by L * x elements. A thread write QK_VEC_SIZE elements.
+        // bhi * params.memory_max_len * Dh: 定位到具体的 batch_id 和 head_id
+        // 
         int offset = bhi * params.memory_max_len * Dh + co * params.memory_max_len * QK_ELTS_IN_16B +
                      // params.timestep*QK_ELTS_IN_16B +
                      tlength * QK_ELTS_IN_16B + ci;
@@ -1439,6 +1441,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
         int ci = tidx % QK_VECS_IN_16B * QK_VEC_SIZE;
 
         // Two chunks are separated by L * x elements. A thread write QK_VEC_SIZE elements.
+        // 疑问：为什么 tlength_circ 是 0？
         int offset = bhi * params.memory_max_len * Dh + co * params.memory_max_len * QK_ELTS_IN_16B +
                      // params.timestep*QK_ELTS_IN_16B +
                      tlength_circ * QK_ELTS_IN_16B + ci;
