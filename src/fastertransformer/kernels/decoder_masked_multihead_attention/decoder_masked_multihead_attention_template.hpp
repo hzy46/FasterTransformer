@@ -1263,10 +1263,10 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
-            blockIdx.x, blockIdx.y, threadIdx.x, qkv_base_offset, bi_seq_len_offset, int(tlength), int(first_step), int(tlength_circ)
+            int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(qkv_base_offset), int(bi_seq_len_offset), int(tlength), int(first_step), int(tlength_circ)
         );
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] is_masked %d qk_offset %d qk_bias_offset %d do_ia3 %d ia3_task_id %d  \n",
-            blockIdx.x, blockIdx.y, threadIdx.x, is_masked, qk_offset, qk_bias_offset, do_ia3, ia3_task_id 
+            int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(is_masked), int(qk_offset), int(qk_bias_offset), int(do_ia3), int(ia3_task_id) 
         );
     }
 
