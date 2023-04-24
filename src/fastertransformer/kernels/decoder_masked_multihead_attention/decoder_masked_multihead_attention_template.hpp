@@ -1446,6 +1446,13 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
                      // params.timestep*QK_ELTS_IN_16B +
                      tlength_circ * QK_ELTS_IN_16B + ci;
 
+        if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
+            printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] tlength_circ %d offset %d \n",
+                int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(tlength_circ), int(offset)
+            );
+        }
+
+
         if (handle_kv) {
             // Trigger the stores to global memory.
             if (Dh == Dh_MAX || co < Dh / QK_ELTS_IN_16B) {
