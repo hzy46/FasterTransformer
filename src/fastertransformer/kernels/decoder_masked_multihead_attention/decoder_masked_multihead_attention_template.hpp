@@ -1201,7 +1201,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
     if (params.finished != nullptr && params.finished[bi] == true) {
         return;
     }
-    if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
+    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] WARPS_PER_BLOCK %d sizeof(Qk_vec_k) %d sizeof(Qk_vec_m) %d\n",
             blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, int(sizeof(Qk_vec_k)), int(sizeof(Qk_vec_m))
         );
@@ -1225,7 +1225,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     const bool handle_kv = !DO_CROSS_ATTENTION || (DO_CROSS_ATTENTION && params.timestep == 0);
 
-    if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
+    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] beami %d bbi %d hi %d bhi %d bbhi %d tidx %d handle_kv %d\n",
             blockIdx.x, blockIdx.y, threadIdx.x, beami, bbi, hi, bhi, bbhi, tidx, handle_kv
         );
@@ -1261,7 +1261,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
     const int  ia3_task_id = do_ia3 ? params.ia3_tasks[bbi] : 0;
 
 
-    if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
+    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
         printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
             blockIdx.x, blockIdx.y, threadIdx.x, qkv_base_offset, bi_seq_len_offset, int(tlength), int(first_step), int(tlength_circ)
         );
@@ -1446,7 +1446,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
                      // params.timestep*QK_ELTS_IN_16B +
                      tlength_circ * QK_ELTS_IN_16B + ci;
 
-        if ((blockIdx.x == 3) && (threadIdx.x == 55)) {
+        if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
             printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] tlength_circ %d offset %d \n",
                 int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(tlength_circ), int(offset)
             );
