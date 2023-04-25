@@ -901,6 +901,10 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
             printf("[ParallelGpt->forward] use_shared_contexts %d compact_size %d batch_size %d \n", use_shared_contexts, int(compact_size), int(batch_size));
             printf("[ParallelGpt->forward] [shared context] shared_contexts_idx_ ");
             Tensor(MEMORY_GPU, TYPE_INT32, {batch_size}, shared_contexts_idx_).print_value();
+            printf("[ParallelGpt->forward] [shared context] batch_to_compact_idx_ ");
+            Tensor(MEMORY_GPU, TYPE_INT32, {batch_size}, batch_to_compact_idx_).print_value();
+            printf("[ParallelGpt->forward] [shared context] compact_idx_ ");
+            Tensor(MEMORY_GPU, TYPE_INT32, {batch_size}, compact_idx_).print_value();
             sync_check_cuda_error();
         }
         POP_RANGE;
