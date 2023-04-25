@@ -898,6 +898,9 @@ void ParallelGpt<T>::forward(std::unordered_map<std::string, Tensor>*       outp
                                   stream_);
             cudaD2Hcpy(&compact_size, compact_size_, 1);
             use_shared_contexts = compact_size <= shared_contexts_ratio_ * batch_size;
+            printf("[ParallelGpt->forward] use_shared_contexts %d compact_size %d batch_size %d \n", use_shared_contexts, compact_size, batch_size);
+            printf("[ParallelGpt->forward] [shared context] shared_contexts_idx_ ");
+            Tensor(MEMORY_GPU, TYPE_INT32, {batch_size}, shared_contexts_idx_).print_value();
             sync_check_cuda_error();
         }
         POP_RANGE;
