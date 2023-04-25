@@ -1201,14 +1201,14 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
     if (params.finished != nullptr && params.finished[bi] == true) {
         return;
     }
-    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
-        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] WARPS_PER_BLOCK %d sizeof(Qk_vec_k) %d sizeof(Qk_vec_m) %d\n",
-            blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, int(sizeof(Qk_vec_k)), int(sizeof(Qk_vec_m))
-        );
-        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] QK_VECS_PER_WARP %d QK_ELTS_IN_16B %d QK_VECS_IN_16B %d\n",
-           blockIdx.x, blockIdx.y, threadIdx.x, QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
-        );
-    }
+    // if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+    //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] WARPS_PER_BLOCK %d sizeof(Qk_vec_k) %d sizeof(Qk_vec_m) %d\n",
+    //         blockIdx.x, blockIdx.y, threadIdx.x, WARPS_PER_BLOCK, int(sizeof(Qk_vec_k)), int(sizeof(Qk_vec_m))
+    //     );
+    //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] QK_VECS_PER_WARP %d QK_ELTS_IN_16B %d QK_VECS_IN_16B %d\n",
+    //        blockIdx.x, blockIdx.y, threadIdx.x, QK_VECS_PER_WARP, QK_ELTS_IN_16B, QK_VECS_IN_16B
+    //     );
+    // }
 
     // The beam idx
     const int beami = bi % params.beam_width;
@@ -1225,11 +1225,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 
     const bool handle_kv = !DO_CROSS_ATTENTION || (DO_CROSS_ATTENTION && params.timestep == 0);
 
-    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
-        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] beami %d bbi %d hi %d bhi %d bbhi %d tidx %d handle_kv %d\n",
-            blockIdx.x, blockIdx.y, threadIdx.x, beami, bbi, hi, bhi, bbhi, tidx, handle_kv
-        );
-    }
+    // if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+    //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] beami %d bbi %d hi %d bhi %d bbhi %d tidx %d handle_kv %d\n",
+    //         blockIdx.x, blockIdx.y, threadIdx.x, beami, bbi, hi, bhi, bbhi, tidx, handle_kv
+    //     );
+    // }
 
 
     // While doing the product Q*K^T for the different keys we track the max.
@@ -1261,14 +1261,14 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
     const int  ia3_task_id = do_ia3 ? params.ia3_tasks[bbi] : 0;
 
 
-    if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
-        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
-            int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(qkv_base_offset), int(bi_seq_len_offset), int(tlength), int(first_step), int(tlength_circ)
-        );
-        printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] is_masked %d qk_offset %d qk_bias_offset %d do_ia3 %d ia3_task_id %d  \n",
-            int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(is_masked), int(qk_offset), int(qk_bias_offset), int(do_ia3), int(ia3_task_id) 
-        );
-    }
+    // if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+    //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] qkv_base_offset %d bi_seq_len_offset %d tlength %d first_step %d tlength_circ %d \n",
+    //         int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(qkv_base_offset), int(bi_seq_len_offset), int(tlength), int(first_step), int(tlength_circ)
+    //     );
+    //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] is_masked %d qk_offset %d qk_bias_offset %d do_ia3 %d ia3_task_id %d  \n",
+    //         int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(is_masked), int(qk_offset), int(qk_bias_offset), int(do_ia3), int(ia3_task_id) 
+    //     );
+    // }
 
 
     // Trigger the loads from the Q and K buffers.
@@ -1446,11 +1446,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
                      // params.timestep*QK_ELTS_IN_16B +
                      tlength_circ * QK_ELTS_IN_16B + ci;
 
-        if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
-            printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] tlength_circ %d offset %d \n",
-                int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(tlength_circ), int(offset)
-            );
-        }
+        // if ((blockIdx.x == 3) && (threadIdx.x == 10)) {
+        //     printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] tlength_circ %d offset %d \n",
+        //         int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(tlength_circ), int(offset)
+        //     );
+        // }
 
 
         if (handle_kv) {
@@ -1631,6 +1631,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
             }
             qk_max                   = is_mask ? qk_max : fmaxf(qk_max, qk);
             qk_smem[ti - first_step] = qk;
+            if ((blockIdx.x == 3) && (blockIdx.y == 2)) {
+                printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] [qk_smem write] index %d ti %d first_step %d \n",
+                    int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(ti - first_step), int(ti), int(first_step)
+                );
+            }
         }
     }
 
@@ -1685,6 +1690,7 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 #endif
         sum += logit;
         qk_smem[ti - first_step] = logit;
+
     }
 
     // Compute the sum.
@@ -1805,6 +1811,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 #else   // FP8_MHA
             Tk logit = logits_smem[ti - first_step];
             out      = fma(logit, v, out);
+            if ((blockIdx.x == 3) && (blockIdx.y == 2)) {
+                printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] [calc out loop1] index %d ti %d first_step %d \n",
+                    int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(ti - first_step), int(ti), int(first_step)
+                );
+            }
 #endif  // FP8_MHA
 #endif  // MMHA_USE_FP32_ACUM_FOR_LOGITS
         }
@@ -1851,6 +1862,11 @@ __global__ void masked_multihead_attention_kernel(Multihead_attention_params<T, 
 #else   // FP8_MHA
             Tk logit = logits_smem[ti - first_step];
             out      = fma(logit, v, out);
+            if ((blockIdx.x == 3) && (blockIdx.y == 2)) {
+                printf("[masked_multihead_attention_kernel Block=(%d, %d) Thread=(%d,)] [calc out loop2] index %d ti %d first_step %d \n",
+                    int(blockIdx.x), int(blockIdx.y), int(threadIdx.x), int(ti - first_step), int(ti), int(first_step)
+                );
+            }
 #endif  // FP8_MHA
 #endif  // MMHA_USE_FP32_ACUM_FOR_LOGITS
         }
