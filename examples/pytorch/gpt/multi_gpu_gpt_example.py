@@ -99,6 +99,8 @@ def main():
                         help='Skip detokenizing output token ids.')
     parser.add_argument('--use_jieba_tokenizer', action='store_true',
                         help='use JiebaBPETokenizer as tokenizer.')
+    parser.add_argument('--print_output', action='store_true',
+                    help='whether to print output')
     parser.add_argument('--int8_mode', type=int, default=0, choices=[0, 1],
                         help='The level of quantization to perform.'
                              ' 0: No quantization. All computation in data_type'
@@ -346,9 +348,10 @@ def main():
                 output = enc.decode(token) if args.detokenize else ' '.join(str(t) for t in token.tolist())
                 outputs.append(output)
                 # print(f'[INFO] batch {i}, beam {beam_id}:\n[Context]\n{context}\n\n[Output]\n{output}\n')
-        print("------output starts-------")
-        print(outputs)
-        print("------output ends-------")
+        if args.print_output:
+            print("------output starts-------")
+            print(outputs)
+            print("------output ends-------")
         if args.sample_output_file:
             with open(args.sample_output_file, "w+") as f:
                 outputs = [o.replace("\n", "\\n") for o in outputs]
